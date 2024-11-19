@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace networkk
 {
-    internal class ClassDijekstra
+    internal class BFS
     {
     }
 }

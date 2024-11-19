@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace networkk
 {
-    internal class Class1Dfscs
+    internal class Node
     {
     }
 }

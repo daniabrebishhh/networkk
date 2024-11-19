@@ -63,13 +63,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Class1Dfscs.cs" />
-    <Compile Include="ClassBfs.cs" />
-    <Compile Include="ClassCanvas.cs" />
-    <Compile Include="ClassDijekstra.cs" />
-    <Compile Include="ClassKruskal.cs" />
-    <Compile Include="Classnode.cs" />
+    <Compile Include="BFS.cs" />
+    <Compile Include="Canvas.cs" />
+    <Compile Include="Dijekstra.cs" />
+    <Compile Include="Kruskal.cs" />
+    <Compile Include="Controller.cs" />
+    <Compile Include="DFS.cs" />
+    <Compile Include="Edge.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="ClassPrim.cs" />
+    <Compile Include="Graph.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
