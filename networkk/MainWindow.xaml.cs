@@ -119,14 +119,58 @@ namespace GraphApp
 
         private void DeleteNode_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Delete Node clicked!");
-            // أضيفي منطق حذف العقدة هنا
+            MessageBox.Show("انقر على العقدة التي تريد حذفها.");
+            graphCanvas.MouseLeftButtonDown += SelectNodeForDeletion;
         }
+
+        private void SelectNodeForDeletion(object sender, MouseButtonEventArgs e)
+        {
+            var position = e.GetPosition(graphCanvas);
+            var nodeToDelete = _graph.GetNodeAtPosition(position);
+
+            if (nodeToDelete != null)
+            {
+                // إزالة العقدة من القراف
+                _controller.RemoveNode(nodeToDelete);
+
+                MessageBox.Show($"تم حذف العقدة: {nodeToDelete.Label}");
+
+                // إزالة الحدث
+                graphCanvas.MouseLeftButtonDown -= SelectNodeForDeletion;
+            }
+            else
+            {
+                MessageBox.Show("لم يتم العثور على عقدة في هذا الموقع.");
+            }
+        }
+
         private void DeleteEdge_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Delete Edge clicked!");
-            // أضيفي منطق حذف الحافة هنا
+            MessageBox.Show("انقر على الحافة التي تريد حذفها.");
+            graphCanvas.MouseLeftButtonDown += SelectEdgeForDeletion;
         }
+
+        private void SelectEdgeForDeletion(object sender, MouseButtonEventArgs e)
+        {
+            var position = e.GetPosition(graphCanvas);
+            var edgeToDelete = _graph.GetEdgeAtPosition(position);
+
+            if (edgeToDelete != null)
+            {
+                // إزالة الحافة من القراف
+                _controller.RemoveEdge(edgeToDelete);
+
+                MessageBox.Show($"تم حذف الحافة بين {edgeToDelete.StartNode.Label} و {edgeToDelete.EndNode.Label}.");
+
+                // إزالة الحدث
+                graphCanvas.MouseLeftButtonDown -= SelectEdgeForDeletion;
+            }
+            else
+            {
+                MessageBox.Show("لم يتم العثور على حافة في هذا الموقع.");
+            }
+        }
+
         private void RunDijkstra_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Run Dijkstra clicked!");

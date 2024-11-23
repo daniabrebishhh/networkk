@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using GraphApp.Models;
@@ -19,8 +21,6 @@ namespace GraphApp.Views
         {
             _canvas.Children.Clear();
         }
-
-        // رسم عقدة
         public void DrawNode(Node node)
         {
             Ellipse ellipse = new Ellipse
@@ -29,7 +29,8 @@ namespace GraphApp.Views
                 Height = node.Size,
                 Fill = node.Color,
                 Stroke = Brushes.Black,
-                StrokeThickness = 1
+                StrokeThickness = 1,
+                Tag = node // تعيين العقدة كعلامة
             };
 
             Canvas.SetLeft(ellipse, node.Position.X - node.Size / 2);
@@ -53,7 +54,6 @@ namespace GraphApp.Views
             }
         }
 
-        // رسم حافة
         public void DrawEdge(Edge edge)
         {
             Line line = new Line
@@ -63,7 +63,8 @@ namespace GraphApp.Views
                 X2 = edge.EndNode.Position.X,
                 Y2 = edge.EndNode.Position.Y,
                 Stroke = edge.Color,
-                StrokeThickness = edge.Thickness
+                StrokeThickness = edge.Thickness,
+                Tag = edge // تعيين الحافة كعلامة
             };
 
             _canvas.Children.Add(line);
@@ -85,6 +86,26 @@ namespace GraphApp.Views
 
                 _canvas.Children.Add(text);
             }
+        }
+
+        public void RemoveNode(Node node)
+        {
+            // حذف العنصر المرئي للعقدة
+            var visual = _canvas.Children
+                .OfType<FrameworkElement>() // تأكد أن العنصر يدعم FrameworkElement
+                .FirstOrDefault(el => el.Tag == node);
+            if (visual != null)
+                _canvas.Children.Remove(visual);
+        }
+
+        public void RemoveEdge(Edge edge)
+        {
+            // حذف العنصر المرئي للحافة
+            var visual = _canvas.Children
+                .OfType<FrameworkElement>() // تأكد أن العنصر يدعم FrameworkElement
+                .FirstOrDefault(el => el.Tag == edge);
+            if (visual != null)
+                _canvas.Children.Remove(visual);
         }
     }
 }

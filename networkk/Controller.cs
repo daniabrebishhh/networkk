@@ -1,5 +1,6 @@
 ﻿using GraphApp.Models;
 using GraphApp.Views;
+using System.Linq;
 
 namespace GraphApp.Controllers
 {
@@ -24,9 +25,27 @@ namespace GraphApp.Controllers
         // حذف عقدة
         public void RemoveNode(Node node)
         {
-            _graph.RemoveNode(node);
-            _canvas.ClearCanvas(); // تنظيف وإعادة الرسم
-            RenderGraph();
+            // حذف الحواف المرتبطة بالعقدة
+            var edgesToRemove = _graph.Edges.Where(e => e.StartNode == node || e.EndNode == node).ToList();
+            foreach (var edge in edgesToRemove)
+            {
+                RemoveEdge(edge);
+            }
+
+            // حذف العقدة من القراف
+            _graph.Nodes.Remove(node);
+
+            // تحديث الكانفاس
+            _canvas.RemoveNode(node); // استخدم _canvas بدلاً من _graphCanvas
+        }
+
+        public void RemoveEdge(Edge edge)
+        {
+            // حذف الحافة من القراف
+            _graph.Edges.Remove(edge);
+
+            // تحديث الكانفاس
+            _canvas.RemoveEdge(edge); // استخدم _canvas بدلاً من _graphCanvas
         }
 
         // إضافة حافة
@@ -34,14 +53,6 @@ namespace GraphApp.Controllers
         {
             _graph.AddEdge(edge);
             _canvas.DrawEdge(edge); // تحديث الكانفاس
-        }
-
-        // حذف حافة
-        public void RemoveEdge(Edge edge)
-        {
-            _graph.RemoveEdge(edge);
-            _canvas.ClearCanvas(); // تنظيف وإعادة الرسم
-            RenderGraph();
         }
 
         // إعادة رسم القراف
